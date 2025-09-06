@@ -1,73 +1,91 @@
-# Welcome to your Lovable project
+🛍️ ShopAgent – E-commerce Chatbot Platform
 
-## Project info
+ShopAgent is a multi-page e-commerce chatbot platform where users can browse products, place orders, track shipments, get FAQs answered, and chat with a support agent – all in one unified interface.
 
-**URL**: https://lovable.dev/projects/c013e0bc-085d-40c9-8c9f-fda37c8da238
+✨ Features
 
-## How can I edit this code?
+🏠 Homepage – Hero section with highlights and quick navigation
 
-There are several ways of editing your application.
+🛍️ Shop – Product catalog with search, product details, and ordering
 
-**Use Lovable**
+📦 Orders – Track past and current orders with real-time statuses
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/c013e0bc-085d-40c9-8c9f-fda37c8da238) and start prompting.
+💬 Chat Assistant – AI-powered chatbot for product search, order lookup, FAQs, and agent connection
 
-Changes made via Lovable will be committed automatically to this repo.
+❓ FAQ Section – Searchable FAQs with quick answers
 
-**Use your preferred IDE**
+👩‍💻 Agent Support – Simulated human agent handoff
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+🗂️ Dummy Data
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+Products: 12 sample products with brand, price, stock info, and descriptions
 
-Follow these steps:
+Orders: 6 orders with realistic statuses (Processing, Shipped, Delivered, Cancelled)
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
+<img width="1645" height="910" alt="image" src="https://github.com/user-attachments/assets/4c755dbb-32c3-49e2-ad20-afdb6c04ebef" />
+<img width="1366" height="877" alt="image" src="https://github.com/user-attachments/assets/0133842b-03dd-471f-91a4-1db05275eae6" />
+<img width="1627" height="907" alt="image" src="https://github.com/user-attachments/assets/821b2f37-0202-4b15-81ed-4b5733150328" />
+
+Agent: Demo handoff to “Sarah” from customer support
+
+⚡ Tech Stack
+
+⚛️ React + TypeScript
+
+🎨 Tailwind CSS + shadcn/ui
+
+⚡ Vite (bundler & dev server)
+
+🚀 Getting Started
+
+Follow these steps to run ShopAgent locally:
+
+# 1. Clone the repository
 git clone <YOUR_GIT_URL>
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# 2. Navigate into the project directory
+cd shopagent
 
-# Step 3: Install the necessary dependencies.
-npm i
+# 3. Install dependencies
+npm install
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# 4. Start the development server
 npm run dev
-```
 
-**Edit a file directly in GitHub**
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+Your app will be available at http://localhost:5173/.
 
-**Use GitHub Codespaces**
+📦 Deployment
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+You can deploy ShopAgent on:
 
-## What technologies are used for this project?
+Vercel
 
-This project is built with:
+Netlify
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+Render
 
-## How can I deploy this project?
+Or any platform that supports React + Vite apps
 
-Simply open [Lovable](https://lovable.dev/projects/c013e0bc-085d-40c9-8c9f-fda37c8da238) and click on Share -> Publish.
+Example deployment with Vercel:
 
-## Can I connect a custom domain to my Lovable project?
+npm run build
+vercel deploy
 
-Yes, you can!
+🌐 Custom Domain
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+You can connect ShopAgent to your own domain via your hosting provider’s DNS settings.
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+📌 Roadmap
+
+🔐 Add authentication (user accounts, login, and signup)
+
+💳 Payment gateway integration (Stripe/PayPal)
+
+🗂️ Persistent database for products & orders
+
+🤝 Live agent chat integration
+
+📄 License
+
+This project is released under the MIT License.
