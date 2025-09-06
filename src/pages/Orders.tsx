@@ -3,63 +3,45 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Package, Search, Truck, CheckCircle, Clock, AlertCircle, Eye } from "lucide-react";
+import { Package, Search, Truck, CheckCircle, Clock, AlertCircle, Eye, MapPin, CreditCard } from "lucide-react";
+import { orders } from "@/data/orders";
+import { useToast } from "@/hooks/use-toast";
 
 const Orders = () => {
+  const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState("");
   
-  // Sample orders data
-  const orders = [
-    {
-      id: "ORD-2024-001",
-      date: "2024-01-15",
-      status: "delivered",
-      total: 79.99,
-      items: [
-        { name: "Wireless Bluetooth Headphones", quantity: 1, price: 79.99, image: "🎧" }
-      ],
-      tracking: "TRK123456789",
-      estimatedDelivery: "2024-01-18"
-    },
-    {
-      id: "ORD-2024-002", 
-      date: "2024-01-14",
-      status: "shipped",
-      total: 199.99,
-      items: [
-        { name: "Smart Fitness Watch", quantity: 1, price: 199.99, image: "⌚" }
-      ],
-      tracking: "TRK987654321",
-      estimatedDelivery: "2024-01-17"
-    },
-    {
-      id: "ORD-2024-003",
-      date: "2024-01-13", 
-      status: "processing",
-      total: 44.98,
-      items: [
-        { name: "Organic Coffee Beans", quantity: 2, price: 24.99, image: "☕" }
-      ],
-      tracking: null,
-      estimatedDelivery: "2024-01-20"
-    },
-    {
-      id: "ORD-2024-004",
-      date: "2024-01-10",
-      status: "cancelled",
-      total: 449.99,
-      items: [
-        { name: "Professional Camera Lens", quantity: 1, price: 449.99, image: "📷" }
-      ],
-      tracking: null,
-      estimatedDelivery: null
-    }
-  ];
+  const filteredOrders = orders.filter(order =>
+    order.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    order.items.some(item => item.name.toLowerCase().includes(searchQuery.toLowerCase()))
+  );
+
+  const handleTrackOrder = (tracking: string) => {
+    toast({
+      title: "Tracking Order",
+      description: `Opening tracking details for ${tracking}`,
+    });
+  };
+
+  const handleViewDetails = (orderId: string) => {
+    toast({
+      title: "Order Details",
+      description: `Viewing details for order ${orderId}`,
+    });
+  };
+
+  const handleReorder = (orderId: string) => {
+    toast({
+      title: "Reordering Items",
+      description: `Adding items from order ${orderId} to cart`,
+    });
+  };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
       case "delivered": return <CheckCircle className="h-4 w-4" />;
       case "shipped": return <Truck className="h-4 w-4" />;
+      case "confirmed": return <Package className="h-4 w-4" />;
       case "processing": return <Clock className="h-4 w-4" />;
       case "cancelled": return <AlertCircle className="h-4 w-4" />;
       default: return <Package className="h-4 w-4" />;
@@ -70,16 +52,12 @@ const Orders = () => {
     switch (status) {
       case "delivered": return "success";
       case "shipped": return "default";
+      case "confirmed": return "secondary";
       case "processing": return "secondary";
       case "cancelled": return "destructive";
       default: return "secondary";
     }
   };
-
-  const filteredOrders = orders.filter(order =>
-    order.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    order.items.some(item => item.name.toLowerCase().includes(searchQuery.toLowerCase()))
-  );
 
   return (
     <div className="min-h-screen py-8 px-4">
@@ -154,45 +132,102 @@ const Orders = () => {
                 </div>
                 
                 {/* Order Details */}
-                <div className="flex flex-col sm:flex-row gap-4 pt-4 border-t border-border">
-                  <div className="flex-1 space-y-2">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 pt-4 border-t border-border">
+                  <div className="space-y-3">
+                    {/* Shipping Address */}
+                    <div className="bg-muted/30 p-3 rounded-lg">
+                      <div className="flex items-center gap-2 mb-2">
+                        <MapPin className="h-4 w-4 text-muted-foreground" />
+                        <span className="text-sm font-medium text-foreground">Shipping Address</span>
+                      </div>
+                      <div className="text-sm text-muted-foreground">
+                        <p className="font-medium text-foreground">{order.shippingAddress.name}</p>
+                        <p>{order.shippingAddress.street}</p>
+                        <p>{order.shippingAddress.city}, {order.shippingAddress.state} {order.shippingAddress.zip}</p>
+                        <p>{order.shippingAddress.country}</p>
+                      </div>
+                    </div>
+
+                    {/* Payment Method */}
+                    <div className="bg-muted/30 p-3 rounded-lg">
+                      <div className="flex items-center gap-2 mb-1">
+                        <CreditCard className="h-4 w-4 text-muted-foreground" />
+                        <span className="text-sm font-medium text-foreground">Payment Method</span>
+                      </div>
+                      <p className="text-sm text-muted-foreground">{order.paymentMethod}</p>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-3">
                     {order.tracking && (
-                      <div>
-                        <p className="text-sm font-medium text-foreground">Tracking Number</p>
+                      <div className="bg-muted/30 p-3 rounded-lg">
+                        <p className="text-sm font-medium text-foreground mb-1">Tracking Number</p>
                         <p className="text-sm text-muted-foreground font-mono">{order.tracking}</p>
                       </div>
                     )}
                     
                     {order.estimatedDelivery && order.status !== "cancelled" && (
-                      <div>
-                        <p className="text-sm font-medium text-foreground">
-                          {order.status === "delivered" ? "Delivered" : "Estimated Delivery"}
+                      <div className="bg-muted/30 p-3 rounded-lg">
+                        <p className="text-sm font-medium text-foreground mb-1">
+                          {order.status === "delivered" ? "Delivered On" : "Estimated Delivery"}
                         </p>
                         <p className="text-sm text-muted-foreground">
-                          {new Date(order.estimatedDelivery).toLocaleDateString()}
+                          {new Date(order.estimatedDelivery).toLocaleDateString("en-US", {
+                            weekday: "long",
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric"
+                          })}
                         </p>
                       </div>
                     )}
                   </div>
+                </div>
+                
+                {/* Action Buttons */}
+                <div className="flex flex-wrap gap-2 pt-4 border-t border-border">
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="flex items-center gap-2"
+                    onClick={() => handleViewDetails(order.id)}
+                  >
+                    <Eye className="h-4 w-4" />
+                    View Details
+                  </Button>
                   
-                  <div className="flex gap-2">
-                    <Button variant="outline" size="sm" className="flex items-center gap-2">
-                      <Eye className="h-4 w-4" />
-                      View Details
+                  {order.status === "delivered" && (
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => handleReorder(order.id)}
+                    >
+                      Reorder
                     </Button>
-                    
-                    {order.status === "delivered" && (
-                      <Button variant="outline" size="sm">
-                        Reorder
-                      </Button>
-                    )}
-                    
-                    {order.tracking && order.status === "shipped" && (
-                      <Button size="sm" className="bg-gradient-to-r from-primary to-primary-hover">
-                        Track Package
-                      </Button>
-                    )}
-                  </div>
+                  )}
+                  
+                  {order.tracking && (order.status === "shipped" || order.status === "confirmed") && (
+                    <Button 
+                      size="sm" 
+                      className="bg-gradient-to-r from-primary to-primary-hover"
+                      onClick={() => handleTrackOrder(order.tracking!)}
+                    >
+                      Track Package
+                    </Button>
+                  )}
+                  
+                  {order.status === "processing" && (
+                    <Button 
+                      variant="destructive" 
+                      size="sm"
+                      onClick={() => toast({
+                        title: "Cancel Order",
+                        description: `Cancelling order ${order.id}`,
+                      })}
+                    >
+                      Cancel Order
+                    </Button>
+                  )}
                 </div>
               </CardContent>
             </Card>

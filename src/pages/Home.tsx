@@ -41,11 +41,11 @@ const Home = () => {
           <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6">
             Your Smart Shopping
             <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent block">
-              Assistant
+              Agent
             </span>
           </h1>
           <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
-            Experience the future of e-commerce with our AI-powered chatbot. Shop, track orders, get support - all through intelligent conversation.
+            Experience the future of e-commerce with ShopAgent's AI-powered assistant. Shop, track orders, get support - all through intelligent conversation.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
@@ -116,7 +116,7 @@ const Home = () => {
             Ready to Transform Your Shopping Experience?
           </h2>
           <p className="text-xl text-white/90 mb-8">
-            Join thousands of satisfied customers who've made the switch to intelligent shopping.
+            Join thousands of satisfied customers who've made the switch to ShopAgent's intelligent shopping platform.
           </p>
           <Button asChild size="lg" variant="secondary" className="bg-white text-primary hover:bg-white/90">
             <Link to="/chat" className="flex items-center">

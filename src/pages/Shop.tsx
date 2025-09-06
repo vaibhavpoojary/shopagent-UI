@@ -4,101 +4,25 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ShoppingCart, Star, Filter, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { products, searchProducts } from "@/data/products";
 import { useToast } from "@/hooks/use-toast";
 
 const Shop = () => {
   const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState("");
   
-  // Sample products data
-  const products = [
-    {
-      id: 1,
-      name: "Wireless Bluetooth Headphones",
-      price: 79.99,
-      originalPrice: 99.99,
-      image: "🎧",
-      rating: 4.5,
-      reviews: 234,
-      category: "Electronics",
-      inStock: true,
-      description: "Premium quality wireless headphones with noise cancellation"
-    },
-    {
-      id: 2,
-      name: "Smart Fitness Watch",
-      price: 199.99,
-      originalPrice: 249.99,
-      image: "⌚",
-      rating: 4.8,
-      reviews: 156,
-      category: "Wearables",
-      inStock: true,
-      description: "Track your fitness goals with advanced health monitoring"
-    },
-    {
-      id: 3,
-      name: "Organic Coffee Beans",
-      price: 24.99,
-      originalPrice: 29.99,
-      image: "☕",
-      rating: 4.6,
-      reviews: 89,
-      category: "Food & Beverage",
-      inStock: true,
-      description: "Premium organic coffee beans, freshly roasted"
-    },
-    {
-      id: 4,
-      name: "Professional Camera Lens",
-      price: 449.99,
-      originalPrice: 549.99,
-      image: "📷",
-      rating: 4.9,
-      reviews: 67,
-      category: "Photography",
-      inStock: false,
-      description: "High-quality lens for professional photography"
-    },
-    {
-      id: 5,
-      name: "Eco-Friendly Water Bottle",
-      price: 19.99,
-      originalPrice: 24.99,
-      image: "🚰",
-      rating: 4.3,
-      reviews: 312,
-      category: "Lifestyle",
-      inStock: true,
-      description: "Sustainable water bottle made from recycled materials"
-    },
-    {
-      id: 6,
-      name: "Gaming Mechanical Keyboard",
-      price: 129.99,
-      originalPrice: 159.99,
-      image: "⌨️",
-      rating: 4.7,
-      reviews: 198,
-      category: "Gaming",
-      inStock: true,
-      description: "RGB backlit mechanical keyboard for gaming enthusiasts"
-    }
-  ];
+  const filteredProducts = searchQuery.trim() 
+    ? searchProducts(searchQuery)
+    : products;
 
-  const filteredProducts = products.filter(product =>
-    product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    product.category.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
-  const handleAddToCart = (product: typeof products[0]) => {
+  const handleAddToCart = (product: any) => {
     toast({
       title: "Added to Cart!",
       description: `${product.name} has been added to your cart.`,
     });
   };
 
-  const handleBuyNow = (product: typeof products[0]) => {
+  const handleBuyNow = (product: any) => {
     toast({
       title: "Redirecting to Checkout",
       description: `Processing purchase for ${product.name}`,
@@ -155,9 +79,30 @@ const Shop = () => {
               </CardHeader>
               
               <CardContent className="space-y-4">
+                {/* Brand */}
+                {product.brand && (
+                  <p className="text-xs text-muted-foreground mb-2">
+                    by {product.brand}
+                  </p>
+                )}
+                
                 <p className="text-sm text-muted-foreground">
                   {product.description}
                 </p>
+                
+                {/* Features */}
+                {product.features && product.features.length > 0 && (
+                  <div className="mt-2">
+                    <p className="text-xs font-medium text-foreground mb-1">Key Features:</p>
+                    <div className="flex flex-wrap gap-1">
+                      {product.features.slice(0, 2).map((feature, idx) => (
+                        <Badge key={idx} variant="outline" className="text-xs">
+                          {feature}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                )}
                 
                 {/* Rating */}
                 <div className="flex items-center gap-2">

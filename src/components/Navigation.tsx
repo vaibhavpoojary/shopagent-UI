@@ -26,7 +26,7 @@ const Navigation = () => {
             <div className="bg-gradient-to-r from-primary to-secondary p-2 rounded-lg">
               <MessageCircle className="h-6 w-6 text-white" />
             </div>
-            <span className="text-xl font-bold text-foreground">ChatShop</span>
+            <span className="text-xl font-bold text-foreground">ShopAgent</span>
           </Link>
 
           {/* Desktop Navigation */}
